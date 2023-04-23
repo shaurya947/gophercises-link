@@ -57,7 +57,7 @@ func getLinkFromAttrs(attrs []html.Attribute) string {
 }
 
 func getTextFromDFS(root *html.Node) string {
-	text := ""
+	textChunks := []string{}
 
 	stack := []*html.Node{}
 	nodePtrToPush := root.LastChild
@@ -72,7 +72,7 @@ func getTextFromDFS(root *html.Node) string {
 		stack = stack[:len(stack)-1]
 
 		if currNodePtr.Type == html.TextNode {
-			text += strings.TrimSpace(currNodePtr.Data)
+			textChunks = append(textChunks, strings.TrimSpace(currNodePtr.Data))
 		}
 
 		nodePtrToPush = currNodePtr.LastChild
@@ -82,5 +82,5 @@ func getTextFromDFS(root *html.Node) string {
 		}
 	}
 
-	return text
+	return strings.Join(textChunks, " ")
 }
